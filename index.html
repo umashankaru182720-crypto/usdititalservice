@@ -383,6 +383,10 @@
   .work-media.grad-c{ background: linear-gradient(140deg, rgba(255,143,199,0.3), rgba(255,182,72,0.2)); }
   .work-media.grad-d{ background: linear-gradient(140deg, rgba(124,108,246,0.22), rgba(255,143,199,0.25)); }
 
+  .work-screenshot{ flex-direction:column; gap:18px; }
+  .work-screenshot img{ width:100%; height:auto; border-radius:10px; box-shadow:0 10px 28px rgba(20,21,31,.12); }
+  .screenshot-hint{ font-size:.78rem; font-weight:600; color:var(--ink-dim); }
+  .work-results li{ color:var(--ink-dim); border-style:solid; background:var(--glass-bg); }
   .mini-chart{ width: 100%; max-width: 260px; }
   .mini-chart svg{ width:100%; height:auto; display:block; }
 
@@ -702,6 +706,45 @@
       <div class="work-list">
 
         <article class="work-card glass reveal">
+          <a class="work-media work-screenshot grad-a" href="img/portfolio/meta-ads-results.png" target="_blank" rel="noopener noreferrer" aria-label="View Meta Ads Campaigns screenshot in full size (opens in a new tab)">
+            <img src="img/portfolio/meta-ads-results.png" alt="Meta Ads Manager showing campaign leads, cost per result and spend" width="1828" height="626" loading="lazy" decoding="async" />
+            <span class="screenshot-hint">View full screenshot ↗</span>
+          </a>
+          <div class="work-body">
+            <p class="work-tag">Meta Ads • Lead Generation</p>
+            <h3>Meta Ads Campaigns</h3>
+            <p>Lead generation campaign performance in Meta Ads Manager, including results, cost per lead and campaign spend.</p>
+            <ul class="work-placeholders work-results"><li>12–17 September 2026</li><li>50 leads at ₹34.49 per lead</li><li>New 12/09 Leads Campaign</li></ul>
+          </div>
+        </article>
+
+        <article class="work-card glass reveal">
+          <a class="work-media work-screenshot grad-b" href="img/portfolio/seo-results.png" target="_blank" rel="noopener noreferrer" aria-label="View SEO and Website Optimization screenshot in full size (opens in a new tab)">
+            <img src="img/portfolio/seo-results.png" alt="SEO dashboard for 5edigital.com showing 85 percent site health, 36 organic keywords and 452 backlinks" width="1745" height="332" loading="lazy" decoding="async" />
+            <span class="screenshot-hint">View full screenshot ↗</span>
+          </a>
+          <div class="work-body">
+            <p class="work-tag">SEO • Website • Analytics</p>
+            <h3>SEO &amp; Website Optimization</h3>
+            <p>SEO performance snapshot for 5edigital.com, covering site health, search visibility, organic keywords and backlinks.</p>
+            <ul class="work-placeholders work-results"><li>85% site health</li><li>36 organic keywords</li><li>452 backlinks</li></ul>
+          </div>
+        </article>
+
+        <article class="work-card glass reveal">
+          <a class="work-media work-screenshot grad-c" href="img/portfolio/google-ads-results.png" target="_blank" rel="noopener noreferrer" aria-label="View Google Ads Campaigns screenshot in full size (opens in a new tab)">
+            <img src="img/portfolio/google-ads-results.png" alt="Google Ads dashboard showing 2 conversions, 4.86 thousand impressions, 88 clicks and 136 rupees average CPC" width="1831" height="597" loading="lazy" decoding="async" />
+            <span class="screenshot-hint">View full screenshot ↗</span>
+          </a>
+          <div class="work-body">
+            <p class="work-tag">Google Ads • Campaign Performance</p>
+            <h3>Google Ads Campaigns</h3>
+            <p>Google Ads performance overview for 20 May–5 June 2026, showing recorded conversions, impressions, clicks and average cost per click.</p>
+            <ul class="work-placeholders work-results"><li>2 recorded conversions</li><li>4.86K impressions</li><li>88 clicks</li><li>₹136 average CPC</li></ul>
+          </div>
+        </article>
+
+        <article class="work-card glass reveal">
           <div class="work-media grad-a">
             <div class="mini-chart">
               <svg viewBox="0 0 240 100" fill="none">
@@ -718,49 +761,6 @@
               <li>Website screenshot</li><li>SEO performance</li><li>Search Console</li><li>Marketing creatives</li>
             </ul>
             <a href="https://5edigital.com/" class="work-link" target="_blank" rel="noopener noreferrer">View Project →</a>
-          </div>
-        </article>
-
-        <article class="work-card glass reveal">
-          <div class="work-media grad-b">
-            <div class="mini-chart">
-              <svg viewBox="0 0 240 100" fill="none">
-                <rect x="10" y="55" width="18" height="35" rx="4" fill="#22c9ae" opacity="0.6"/>
-                <rect x="42" y="40" width="18" height="50" rx="4" fill="#22c9ae" opacity="0.75"/>
-                <rect x="74" y="60" width="18" height="30" rx="4" fill="#5fe3c9" opacity="0.55"/>
-                <rect x="106" y="28" width="18" height="62" rx="4" fill="#5fe3c9" opacity="0.9"/>
-                <rect x="138" y="45" width="18" height="45" rx="4" fill="#22c9ae" opacity="0.65"/>
-                <rect x="170" y="18" width="18" height="72" rx="4" fill="#5fe3c9"/>
-                <rect x="202" y="35" width="18" height="55" rx="4" fill="#22c9ae" opacity="0.75"/>
-              </svg>
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-tag">SEO • Website • Analytics</p>
-            <h3>SEO &amp; Website Optimization</h3>
-            <p>SEO-focused work involving keyword research, website optimization, content strategy, technical improvements, and search performance monitoring.</p>
-            <ul class="work-placeholders">
-              <li>Keyword research</li><li>Search performance</li><li>Search Console</li><li>Analytics</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="work-card glass reveal">
-          <div class="work-media grad-c">
-            <div class="mini-chart">
-              <svg viewBox="0 0 240 100" fill="none">
-                <circle cx="120" cy="50" r="34" stroke="#ff8fc7" stroke-width="4" fill="none" stroke-dasharray="180 60"/>
-                <circle cx="120" cy="50" r="22" stroke="#ffb648" stroke-width="4" fill="none" stroke-dasharray="110 60"/>
-              </svg>
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-tag">Google Ads • Meta Ads • Lead Generation</p>
-            <h3>Digital Marketing Campaigns</h3>
-            <p>Paid campaign work across Google Ads and Meta Ads, covering audience targeting, budget management and campaign optimization for lead generation.</p>
-            <ul class="work-placeholders">
-              <li>Google Ads campaigns</li><li>Meta Ads campaigns</li><li>Audience targeting</li><li>Lead generation</li>
-            </ul>
           </div>
         </article>
 
