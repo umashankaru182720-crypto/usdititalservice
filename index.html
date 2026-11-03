@@ -269,7 +269,7 @@ let renderer;
 try{renderer=new THREE.WebGLRenderer({canvas:$("#gl"),antialias:!mobile,alpha:true,powerPreference:"high-performance"})}
 catch(e){document.documentElement.classList.add("nogl");fail("WebGL unavailable: "+e.message);return}
 
-const V=THREE.Vector3,scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1,.1,200);
+const V3=THREE.Vector3,scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1,.1,200);
 if(THREE.sRGBEncoding)renderer.outputEncoding=THREE.sRGBEncoding;renderer.setClearColor(0xf1f1f6,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
 scene.fog=new THREE.FogExp2(0xf1f1f6,.022);scene.add(cam);
 const srgb=t=>{if(THREE.SRGBColorSpace)t.colorSpace=THREE.SRGBColorSpace;else t.encoding=THREE.sRGBEncoding;return t};
