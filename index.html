@@ -16,14 +16,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
 
 <style>
 :root{--bg:#f1f1f6;--ink:#14151f;--dim:#5c5e6e;--faint:#9698a8;--purple:#7c6cf6;--blue:#4f9dff;--teal:#22c9ae;--pink:#ff8fc7;
 --gl:rgba(255,255,255,.55);--gls:rgba(255,255,255,.76);--gb:rgba(255,255,255,.75);--sh:0 12px 40px -12px rgba(60,50,110,.18);
 --fd:"Outfit","Segoe UI",sans-serif;--fb:"Manrope","Segoe UI",sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}html,body{background:var(--bg)}
+html{scroll-behavior:smooth}html{background:var(--bg)}
 body{font-family:var(--fb);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{max-width:100%;display:block}a{color:inherit;text-decoration:none}ul{list-style:none}button{font-family:inherit;cursor:pointer}
 ::selection{background:var(--purple);color:#fff}
@@ -34,6 +34,7 @@ h1,h2,h3,h4{font-family:var(--fd);font-weight:700;letter-spacing:-.01em;line-hei
 /* 3D stage: one fixed canvas behind all content */
 #gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
 .nogl #gl{display:none}
+#err{position:fixed;left:12px;bottom:12px;z-index:999;max-width:90vw;background:#14151f;color:#fff;font:12px/1.4 monospace;padding:8px 12px;border-radius:8px;display:none}
 .amb{position:fixed;inset:0;z-index:-1;overflow:hidden}
 .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
 .b1{width:560px;height:560px;top:-160px;left:-140px;background:radial-gradient(circle,var(--purple),transparent 70%)}
@@ -126,6 +127,7 @@ footer a{padding:8px 16px;border-radius:99px;background:var(--gls);border:1px so
 <a href="#home" class="skip">Skip to content</a>
 <div class="amb" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 <canvas id="gl" aria-hidden="true"></canvas>
+<div id="err" role="status"></div>
 
 <div class="navw"><nav class="nav" aria-label="Main">
   <a href="#home" class="logo">UMASHANKAR <span>T</span></a>
@@ -255,18 +257,23 @@ footer a{padding:8px 16px;border-radius:99px;background:var(--gls);border:1px so
 </script>
 
 <!-- 3D scroll-driven camera fly-through -->
-<script type="module">
-import * as THREE from "three";
+<script>
+(function(){
+var errEl=document.getElementById("err");
+function fail(m){console.error(m);errEl.textContent="3D scene problem: "+m;errEl.style.display="block"}
+if(!window.THREE){document.documentElement.classList.add("nogl");fail("Three.js did not load (check internet / CDN access).");return}
+window.addEventListener("error",function(e){fail(e.message)});
 const $=s=>document.querySelector(s),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const mobile=innerWidth<820||matchMedia("(pointer:coarse)").matches;
 let renderer;
 try{renderer=new THREE.WebGLRenderer({canvas:$("#gl"),antialias:!mobile,alpha:true,powerPreference:"high-performance"})}
-catch(e){document.documentElement.classList.add("nogl");throw e}
+catch(e){document.documentElement.classList.add("nogl");fail("WebGL unavailable: "+e.message);return}
 
 const V=THREE.Vector3,scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1,.1,200);
-renderer.setClearColor(0xf1f1f6,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+if(THREE.sRGBEncoding)renderer.outputEncoding=THREE.sRGBEncoding;renderer.setClearColor(0xf1f1f6,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
 scene.fog=new THREE.FogExp2(0xf1f1f6,.022);scene.add(cam);
-try{const{RoomEnvironment}=await import("three/addons/environments/RoomEnvironment.js");const p=new THREE.PMREMGenerator(renderer);scene.environment=p.fromScene(new RoomEnvironment(),.04).texture}catch(e){}
+const srgb=t=>{if(THREE.SRGBColorSpace)t.colorSpace=THREE.SRGBColorSpace;else t.encoding=THREE.sRGBEncoding;return t};
+const pl=new THREE.PointLight(0xff8fc7,1.2,0);pl.position.set(-4,2,3);cam.add(pl);const pl2=new THREE.PointLight(0x4f9dff,1.2,0);pl2.position.set(4,-2,3);cam.add(pl2);
 scene.add(new THREE.HemisphereLight(0xffffff,0xc9c4ff,1.1));
 const key=new THREE.DirectionalLight(0xffffff,2);key.position.set(3,4,5);cam.add(key);
 
@@ -311,11 +318,11 @@ ticks.push((t,dt)=>{hx.rotation.y=t*.25+fi*.6;hx.position.y=Math.sin(t*.5)*.2-(f
 
 /* 4 WORK — floating screens, real screenshots when available */
 const g4=grp(4),scr=[],paths=["img/portfolio/meta-ads-results.png","img/portfolio/seo-results.png","img/portfolio/google-ads-results.png"];
-const ph=(l)=>{const c=document.createElement("canvas");c.width=1024;c.height=576;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,1024,576);g.addColorStop(0,"#7c6cf6");g.addColorStop(1,"#4f9dff");x.fillStyle=g;x.fillRect(0,0,1024,576);x.fillStyle="#fff";x.font="700 70px Outfit,Arial";x.fillText(l,60,300);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t};
+const ph=(l)=>{const c=document.createElement("canvas");c.width=1024;c.height=576;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,1024,576);g.addColorStop(0,"#7c6cf6");g.addColorStop(1,"#4f9dff");x.fillStyle=g;x.fillRect(0,0,1024,576);x.fillStyle="#fff";x.font="700 70px Outfit,Arial";x.fillText(l,60,300);return srgb(new THREE.CanvasTexture(c))};
 ["META ADS","SEO","GOOGLE ADS"].forEach((l,j)=>{const s=new THREE.Group(),m=new THREE.MeshBasicMaterial({map:ph(l),toneMapped:false}),
  f=M(new THREE.BoxGeometry(4.1,2.4,.12),mat(P.white,{roughness:.2})),p=M(new THREE.PlaneGeometry(3.9,2.2),m,0,0,.07);s.add(f,p);
  s.position.set((j-1)*3.4,(1-j)*.2,-j*1.6);s.rotation.y=(1-j)*.3;g4.add(s);scr.push(s);
- new THREE.TextureLoader().load(paths[j],t=>{t.colorSpace=THREE.SRGBColorSpace;m.map=t;m.needsUpdate=true},undefined,()=>{})});
+ new THREE.TextureLoader().load(paths[j],t=>{try{srgb(t);renderer.initTexture(t);m.map=t;m.needsUpdate=true}catch(e){console.warn("Screenshot texture blocked (open via http:// or a server):",e.message)}},undefined,()=>{})});
 ticks.push((t,dt)=>{scr.forEach((s,i)=>{s.position.y=(1-i)*.2+Math.sin(t*.7+i)*.12});g4.rotation.y=Math.sin(t*.2)*.05});
 
 /* 5 TOOLS — orbit of eight tool beads */
@@ -350,16 +357,17 @@ addEventListener("resize",resize);resize();addEventListener("load",measure);
 if("ResizeObserver" in window)new ResizeObserver(measure).observe(document.body);
 
 let raf=0,last=0;
-function frame(ms){raf=0;if(document.hidden)return;const t=ms/1000,dt=Math.min(t-last,.05);last=t;
+function frame(ms){raf=0;if(document.hidden)return;raf=requestAnimationFrame(frame);try{const t=ms/1000,dt=Math.min(t-last,.05);last=t;
  const n=WP.length,y=sy+innerHeight/2;let i=0,u=0;
  if(y<=C[0])fi=0;else if(y>=C[n-1]){i=n-2;u=1;fi=n-1}else{while(i<n-2&&y>C[i+1])i++;u=(y-C[i])/(C[i+1]-C[i]);u=u*u*(3-2*u);fi=i+u}
  tp.lerpVectors(WP[i].p,WP[i+1].p,u);tl.lerpVectors(WP[i].l,WP[i+1].l,u);intro*=Math.exp(-dt*1.6);tp.z+=intro*(1-Math.min(1,fi));
- const k=rm?1:1-Math.exp(-dt*5);cur.lerp(tp,k);curL.lerp(tl,k);ptr.x+=(ptr.tx-ptr.x)*.06;ptr.y+=(ptr.ty-ptr.y)*.06;
+ const k=1-Math.exp(-dt*(rm?9:5));cur.lerp(tp,k);curL.lerp(tl,k);ptr.x+=(ptr.tx-ptr.x)*.06;ptr.y+=(ptr.ty-ptr.y)*.06;
  cam.position.set(cur.x+ptr.x*.5,cur.y-ptr.y*.3,cur.z);cam.lookAt(curL);
- if(!rm)for(const f of ticks)f(t,dt);
- renderer.render(scene,cam);raf=requestAnimationFrame(frame)}
+ for(const f of ticks)f(t,rm?dt*.35:dt);
+ renderer.render(scene,cam)}catch(e){if(!frame.e){frame.e=1;fail(e.message)}}}
 const start=()=>{if(!raf&&!document.hidden){last=performance.now()/1000;raf=requestAnimationFrame(frame)}};
 document.addEventListener("visibilitychange",start);start();
+})();
 </script>
 </body>
 </html>
