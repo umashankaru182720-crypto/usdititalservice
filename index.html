@@ -95,8 +95,8 @@ h1{font-size:clamp(2.8rem,6.2vw,5.4rem);margin:22px 0 0;transform-style:preserve
 .c4{top:-3%;right:8%;animation-delay:-2.4s}
 .c5{bottom:-4%;left:36%;animation-delay:-.8s}
 @keyframes fl{50%{transform:translateY(-14px) translateZ(70px)}}
-.bot{position:absolute;right:-9%;bottom:-9%;width:170px;height:170px;z-index:3;cursor:pointer;transform:translateZ(90px)}
-.bub{position:absolute;right:-6%;bottom:calc(-9% + 150px);z-index:4;width:200px;padding:12px 16px;border-radius:16px 16px 4px 16px;background:rgba(12,18,40,.92);border:1px solid var(--mint);box-shadow:0 0 24px -6px var(--mint);backdrop-filter:blur(10px);font-size:.78rem;font-weight:600;color:var(--dim);line-height:1.4;pointer-events:none;transform:translateZ(100px)}
+.bot{position:absolute;right:-3%;bottom:-4%;width:58px;height:58px;border-radius:50%;border:0;z-index:3;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--mint));color:#fff;font:800 .95rem var(--fd);box-shadow:0 0 0 0 var(--mint);animation:pulse 2s infinite;transform:translateZ(90px)}
+.bub{position:absolute;right:-6%;bottom:calc(-4% + 68px);z-index:4;width:200px;padding:12px 16px;border-radius:16px 16px 4px 16px;background:rgba(12,18,40,.92);border:1px solid var(--mint);box-shadow:0 0 24px -6px var(--mint);backdrop-filter:blur(10px);font-size:.78rem;font-weight:600;color:var(--dim);line-height:1.4;pointer-events:none;transform:translateZ(100px)}
 .bub b{display:block;font-family:var(--fd);font-size:1.02rem;color:var(--mint);margin-top:4px;line-height:1.25}
 .lb{position:fixed;inset:0;z-index:400;background:rgba(6,10,24,.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:70px 64px 28px;opacity:0;visibility:hidden;transition:.3s}
 .lb.open{opacity:1;visibility:visible}
@@ -126,7 +126,7 @@ h1{font-size:clamp(2.8rem,6.2vw,5.4rem);margin:22px 0 0;transform-style:preserve
 .scrollcue{position:absolute;left:50%;bottom:26px;width:24px;height:40px;border:2px solid var(--line);border-radius:14px;transform:translateX(-50%)}
 .scrollcue::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:var(--mint);animation:sc 1.6s infinite}
 @keyframes sc{to{transform:translateY(14px);opacity:0}}
-@media(max-width:940px){.hero .wrap{grid-template-columns:1fr}.photo{max-width:300px}.c1{left:-4%}.c2{right:-4%}.c3{left:-4%}.bot{width:120px;height:120px;right:-3%}.bub{width:210px;right:-3%;bottom:calc(-9% + 108px)}.scrollcue{display:none}}
+@media(max-width:940px){.hero .wrap{grid-template-columns:1fr}.photo{max-width:300px}.c1{left:-4%}.c2{right:-4%}.c3{left:-4%}.bub{width:210px;right:-3%;bottom:calc(-4% + 68px)}.scrollcue{display:none}}
 
 /* about */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;perspective:1200px}
@@ -190,7 +190,7 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
 .rv{opacity:0;transform:perspective(900px) translateY(50px) rotateX(14deg);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
 @media(hover:none),(prefers-reduced-motion:reduce){.glow{display:none}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.in1{opacity:1;transform:none;animation:none;transition:none}.ln>span{transform:none;animation:none}.track,.chip,.contact .box::before,.pill::before{animation:none}.bot,.bub{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.in1{opacity:1;transform:none;animation:none;transition:none}.ln>span{transform:none;animation:none}.track,.chip,.contact .box::before,.pill::before{animation:none}.bot{animation:none}}
 </style>
 </head>
 <body>
@@ -231,7 +231,7 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
     <div class="chip c3">Google Ads</div>
     <div class="chip c4">GEO</div>
     <div class="chip c5">WordPress</div>
-    <canvas class="bot" id="bot" width="340" height="340" role="button" tabindex="0" aria-label="Open bot menu" aria-expanded="false" aria-controls="bub" title="Click me!"></canvas>
+    <button class="bot" id="bot" aria-label="Open menu" aria-expanded="false" aria-controls="bub" title="Click me!">Hi!</button>
     <div class="bub" id="bub" role="dialog" aria-label="Bot menu">
       <button class="bx" id="bx" aria-label="Close">×</button>
       <strong>Hi, I'm Umashankar's bot!</strong><br>Digital marketing experience<b data-exp>…</b>
@@ -457,51 +457,6 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
       wave.rotation.y=gx*.15;stars.rotation.y=t*.02+gx*.08;stars.rotation.x=sy*.0003;
       C.position.y=1.5-prog*3+gy*-.3;C.position.x=gx*.5;
       R.render(S,C)})(0);
-
-    /* bot mascot */
-    var bc=$('#bot');
-    if(bc){
-      var BR=new THREE.WebGLRenderer({canvas:bc,alpha:true,antialias:true});
-      BR.setPixelRatio(Math.min(devicePixelRatio,2));
-      BR.setSize(bc.clientWidth||170,bc.clientWidth||170,false);
-      var BS=new THREE.Scene(),BC=new THREE.PerspectiveCamera(40,1,.1,50);BC.position.set(0,.3,9);
-      BS.add(new THREE.AmbientLight(0xffffff,.7));
-      var dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(3,4,6);BS.add(dl);
-      var pl=new THREE.PointLight(0x1de9b6,1.2,20);pl.position.set(-3,1,5);BS.add(pl);
-      var M=function(c,e){return new THREE.MeshStandardMaterial({color:c,roughness:.35,metalness:.5,emissive:e||0x000000})};
-      var mesh=function(g,m,x,y,z){var o=new THREE.Mesh(g,m);o.position.set(x||0,y||0,z||0);return o};
-      var bot=new THREE.Group(),head=new THREE.Group();
-      var white=M(0xdfe7ff),blue=M(0x4b7bff),dark=M(0x0a1030);
-      head.add(mesh(new THREE.BoxGeometry(2.2,1.6,1.7),white));
-      head.add(mesh(new THREE.BoxGeometry(1.8,1,.12),dark,0,0,.88));
-      var eyeM=M(0x1de9b6,0x1de9b6),eL=mesh(new THREE.SphereGeometry(.17,16,16),eyeM,-.42,.05,.96),eR=mesh(new THREE.SphereGeometry(.17,16,16),eyeM,.42,.05,.96);
-      head.add(eL,eR);
-      [-1,1].forEach(function(s){var ear=mesh(new THREE.CylinderGeometry(.28,.28,.22,20),blue,s*1.2,0,0);ear.rotation.z=Math.PI/2;head.add(ear)});
-      head.add(mesh(new THREE.CylinderGeometry(.04,.04,.55,8),white,0,1.05,0));
-      var ball=mesh(new THREE.SphereGeometry(.15,16,16),M(0x8b5cff,0x8b5cff),0,1.38,0);head.add(ball);
-      head.position.y=.95;bot.add(head);
-      bot.add(mesh(new THREE.BoxGeometry(1.5,1.2,1.1),white,0,-.55,0));
-      bot.add(mesh(new THREE.SphereGeometry(.17,16,16),M(0x4b7bff,0x4b7bff),0,-.4,.58));
-      var arm=function(s){var p=new THREE.Group();p.position.set(s*1.05,-.15,0);
-        p.add(mesh(new THREE.BoxGeometry(.35,1,.35),blue,0,-.45,0));
-        p.add(mesh(new THREE.SphereGeometry(.24,16,16),white,0,-1,0));bot.add(p);return p};
-      var aL=arm(-1),aR=arm(1);
-      var base=mesh(new THREE.TorusGeometry(.9,.03,8,48),M(0x1de9b6,0x1de9b6),0,-1.6,0);base.rotation.x=Math.PI/2;bot.add(base);
-      BS.add(bot);
-      var t0=performance.now(),play=t0-99999,waveUntil=t0+3500;
-      bc.addEventListener('click',function(){play=performance.now();waveUntil=play+2000});
-      (function bl(){requestAnimationFrame(bl);if(!vis)return;
-        var n=performance.now(),t=(n-t0)*.001,pk=(n-play)/1200;
-        bot.position.y=Math.sin(t*2)*.18+(pk<1?Math.sin(pk*Math.PI)*.8:0);
-        bot.rotation.y=pk<1?(1-Math.pow(1-pk,3))*Math.PI*2:0;
-        head.rotation.y+=(mx*.6-head.rotation.y)*.1;head.rotation.x+=(my*.35-head.rotation.x)*.1;
-        eL.scale.y=eR.scale.y=(t%4)<.12?.1:1;
-        var w=n<waveUntil;
-        aR.rotation.z+=((w?2.6+Math.sin(t*9)*.35:.15)-aR.rotation.z)*.15;
-        aL.rotation.z+=((-.15+Math.sin(t*2)*.05)-aL.rotation.z)*.15;
-        ball.material.emissiveIntensity=.6+Math.sin(t*4)*.4;
-        BR.render(BS,BC)})();
-    }
   }
 })();
 </script>
