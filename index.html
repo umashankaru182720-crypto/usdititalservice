@@ -96,10 +96,30 @@ h1{font-size:clamp(2.8rem,6.2vw,5.4rem);margin:22px 0 0;transform-style:preserve
 .c5{bottom:-4%;left:36%;animation-delay:-.8s}
 @keyframes fl{50%{transform:translateY(-14px) translateZ(70px)}}
 .bot{position:absolute;right:-9%;bottom:-9%;width:170px;height:170px;z-index:3;cursor:pointer;transform:translateZ(90px)}
+.bub{position:absolute;right:-6%;bottom:calc(-9% + 150px);z-index:4;width:200px;padding:12px 16px;border-radius:16px 16px 4px 16px;background:rgba(12,18,40,.92);border:1px solid var(--mint);box-shadow:0 0 24px -6px var(--mint);backdrop-filter:blur(10px);font-size:.78rem;font-weight:600;color:var(--dim);line-height:1.4;pointer-events:none;transform:translateZ(100px)}
+.bub b{display:block;font-family:var(--fd);font-size:1.02rem;color:var(--mint);margin-top:4px;line-height:1.25}
+.bub .hint{display:block;margin-top:6px;font-size:.7rem;color:var(--blue)}
+.lb{position:fixed;inset:0;z-index:400;background:rgba(6,10,24,.95);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:70px 64px 28px;opacity:0;visibility:hidden;transition:.3s}
+.lb.open{opacity:1;visibility:visible}
+.lb figure{margin:0;text-align:center;max-width:min(92vw,1100px)}
+.lb img{max-width:100%;max-height:64vh;margin:0 auto;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid var(--line);background:var(--panel)}
+.lb img.sw{animation:lbin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes lbin{from{opacity:0;transform:scale(.96) translateX(20px)}to{opacity:1;transform:none}}
+.lb figcaption{margin-top:16px}.lb figcaption b{display:block;font-family:var(--fd);font-size:1.3rem}.lb figcaption span{color:var(--dim);font-size:.9rem}
+.lbb{position:absolute;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:#fff;font-size:1.3rem;transition:.25s}
+.lbb:hover{background:var(--blue);transform:scale(1.08)}
+.lbp{left:14px;top:50%;margin-top:-24px}.lbx{right:14px;top:14px}.lbn{right:14px;top:50%;margin-top:-24px}
+.lbd{display:flex;gap:8px;align-items:center;color:var(--dim);font-size:.82rem;font-weight:700}
+.lbd i{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:.25s}.lbd i.on{background:var(--mint);transform:scale(1.3)}
+@media(max-width:700px){.lb{padding:70px 14px 90px}.lbp{left:calc(50% - 60px);top:auto;bottom:22px;margin:0}.lbn{right:calc(50% - 60px);top:auto;bottom:22px;margin:0}}
+.bul{margin-top:14px;display:grid;gap:8px}
+.bul li{position:relative;padding-left:18px;font-size:.9rem;color:var(--dim)}
+.bul li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.sm{font-size:.9rem;color:var(--dim);margin-top:4px}
 .scrollcue{position:absolute;left:50%;bottom:26px;width:24px;height:40px;border:2px solid var(--line);border-radius:14px;transform:translateX(-50%)}
 .scrollcue::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:var(--mint);animation:sc 1.6s infinite}
 @keyframes sc{to{transform:translateY(14px);opacity:0}}
-@media(max-width:940px){.hero .wrap{grid-template-columns:1fr}.photo{max-width:300px}.c1{left:-4%}.c2{right:-4%}.c3{left:-4%}.bot{width:120px;height:120px;right:-3%}.scrollcue{display:none}}
+@media(max-width:940px){.hero .wrap{grid-template-columns:1fr}.photo{max-width:300px}.c1{left:-4%}.c2{right:-4%}.c3{left:-4%}.bot{width:120px;height:120px;right:-3%}.bub{width:170px;right:-3%;bottom:calc(-9% + 108px)}.scrollcue{display:none}}
 
 /* about */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;perspective:1200px}
@@ -163,7 +183,7 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
 .rv{opacity:0;transform:perspective(900px) translateY(50px) rotateX(14deg);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
 @media(hover:none),(prefers-reduced-motion:reduce){.glow{display:none}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.in1{opacity:1;transform:none;animation:none;transition:none}.ln>span{transform:none;animation:none}.track,.chip,.contact .box::before,.pill::before{animation:none}.bot{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.in1{opacity:1;transform:none;animation:none;transition:none}.ln>span{transform:none;animation:none}.track,.chip,.contact .box::before,.pill::before{animation:none}.bot{display:none}.bub .hint{display:none}}
 </style>
 </head>
 <body>
@@ -174,11 +194,11 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
 
 <header id="hd"><div class="wrap nav">
   <a href="#home" class="logo">UMASHANKAR <i>T</i></a>
-  <nav aria-label="Main"><ul class="links"><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#work">Work</a></li></ul></nav>
+  <nav aria-label="Main"><ul class="links"><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#education">Education</a></li><li><a href="#work">Work</a></li></ul></nav>
   <a href="#contact" class="cta">Contact</a>
   <button class="burger" id="bb" aria-label="Open menu" aria-expanded="false" aria-controls="mm"><i></i></button>
 </div></header>
-<div class="mm" id="mm"><a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#contact">Contact</a></div>
+<div class="mm" id="mm"><a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#education">Education</a><a href="#work">Work</a><a href="#contact">Contact</a></div>
 
 <main id="home">
 
@@ -204,15 +224,16 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
     <div class="chip c3">Google Ads</div>
     <div class="chip c4">GEO</div>
     <div class="chip c5">WordPress</div>
-    <canvas class="bot" id="bot" width="340" height="340" title="Click me!" aria-hidden="true"></canvas>
+    <canvas class="bot" id="bot" width="340" height="340" title="Click me to see my work" role="button" tabindex="0" aria-label="Open my work gallery"></canvas>
+    <div class="bub" role="status" aria-live="polite">Hi, I'm Umashankar's bot!<br>Digital marketing experience<b data-exp>…</b><span class="hint">Click me to see my work</span></div>
   </div>
 </div><div class="scrollcue" aria-hidden="true"></div></section>
 
 <section id="about"><div class="wrap about">
   <div class="rv">
     <h2>About me</h2>
-    <p class="lead">I'm a <strong>Digital Marketing Executive</strong> working across SEO, paid advertising, and website management. My day-to-day covers technical SEO and keyword strategy, running Google Ads and Meta Ads campaigns, and managing content and social presence for the brands I work with.</p>
-    <p class="lead">I currently handle <strong>digital marketing and SEO for a VFX outsourcing studio</strong> — search performance, on-page and off-page SEO, WordPress management, and creative campaign support. Earlier experience in field sales and lead generation shaped how I approach marketing: as something measured by real outcomes.</p>
+    <p class="lead">I'm a <strong>Digital Marketing Executive</strong> with hands-on experience in SEO, Google Ads, Meta Ads, social media marketing and WordPress website management. I'm skilled in keyword research, competitor analysis, technical SEO audits, campaign optimization and content creation.</p>
+    <p class="lead">I use <strong>Google Analytics and Google Search Console</strong> to monitor performance and guide website and campaign improvements. Since February 2026 I've worked at 5Elements Entertainments, and I hold an MBA in HR &amp; Marketing and a B.Sc. in Computer Science. Digital marketing experience so far: <strong data-exp>…</strong>.</p>
   </div>
   <div class="mini">
     <div class="glass tilt rv"><span class="dot z"></span><h4 class="z">SEO &amp; Search</h4><p>Keyword research, technical audits and on/off-page optimization.</p></div>
@@ -226,24 +247,33 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
   <div class="head rv"><h2>What I do</h2>
   <p class="lead">Four areas that come together on every campaign — search visibility, paid growth, the web platform behind it, and the creative that carries the message.</p></div>
   <div class="skills">
-    <div class="glass tilt rv"><h3 class="z">SEO &amp; Analytics</h3><ul><li>SEO</li><li>Keyword Research</li><li>On-Page SEO</li><li>Technical SEO</li><li>Off-Page SEO</li><li>Google Search Console</li><li>Google Analytics</li><li>Ahrefs</li><li>SEMrush</li></ul></div>
-    <div class="glass tilt rv"><h3 class="z">Digital Marketing</h3><ul><li>Digital Marketing</li><li>Google Ads</li><li>Meta Ads</li><li>Social Media Marketing</li><li>Content Marketing</li><li>Campaign Management</li><li>Lead Generation</li></ul></div>
-    <div class="glass tilt rv"><h3 class="z">Web &amp; Content</h3><ul><li>WordPress</li><li>Website Optimization</li><li>Website Management</li><li>Content Strategy</li><li>Blog Management</li></ul></div>
-    <div class="glass tilt rv"><h3 class="z">Creative</h3><ul><li>Social Media Creatives</li><li>Advertisement Design</li><li>Marketing Posters</li><li>Canva</li><li>Visual Content</li></ul></div>
+    <div class="glass tilt rv"><h3 class="z">SEO &amp; Content</h3><ul><li>On-Page SEO</li><li>Technical SEO</li><li>Keyword Research</li><li>Competitor Analysis</li><li>SEO Content Writing</li><li>Blog &amp; Landing Page Optimization</li></ul></div>
+    <div class="glass tilt rv"><h3 class="z">Paid Advertising</h3><ul><li>Google Ads</li><li>Meta Ads</li><li>Search Engine Marketing (SEM)</li><li>Audience Targeting</li><li>Lead Generation</li><li>Campaign Optimization</li><li>Performance Tracking</li></ul></div>
+    <div class="glass tilt rv"><h3 class="z">Websites &amp; Social Media</h3><ul><li>WordPress Design &amp; Customization</li><li>Content Publishing</li><li>Social Media Marketing</li><li>Audience Engagement</li><li>Marketing Creatives</li></ul></div>
+    <div class="glass tilt rv"><h3 class="z">Analytics &amp; Tools</h3><ul><li>Google Analytics</li><li>Google Search Console</li><li>Ahrefs</li><li>Semrush</li><li>Canva</li></ul></div>
   </div>
 </div></section>
 
 <section id="experience"><div class="wrap">
   <div class="head rv"><h2>Experience</h2></div>
   <div class="tl">
-    <div class="glass tilt rv" data-t="4"><p class="per">Feb 2026 — Present</p><h3 class="role">Digital Marketing Executive / SEO</h3><p class="co">5Elements Entertainment</p>
-      <ul class="chips"><li>SEO strategy</li><li>Keyword research</li><li>Competitor analysis</li><li>Website audits</li><li>Search performance monitoring</li><li>On-page SEO</li><li>Off-page SEO</li><li>Content strategy</li><li>Backlink strategy</li><li>Social media management</li><li>Creative marketing</li><li>WordPress management</li><li>Digital marketing campaigns</li><li>Google Search Console</li><li>Google Analytics</li><li>Ahrefs</li><li>SEMrush</li></ul></div>
-    <div class="glass tilt rv" data-t="4"><p class="per">Jun 2024 — Aug 2025</p><h3 class="role">Sales &amp; Lead Generation</h3><p class="co">HDB Financial Services</p>
+    <div class="glass tilt rv" data-t="4"><p class="per">Feb 2026 — Present</p><h3 class="role">Digital Marketing Executive</h3><p class="co">5Elements Entertainments</p>
+      <ul class="bul"><li>Execute on-page and technical SEO activities, including keyword research, competitor analysis and website audits using Ahrefs, Semrush and Google Search Console.</li><li>Manage and optimize Google Ads and Meta Ads campaigns for lead generation, including audience targeting and performance tracking.</li><li>Analyze website traffic and campaign performance with Google Analytics and Google Search Console to find optimization opportunities.</li><li>Manage WordPress updates, customization and content publishing, focusing on SEO, site performance and user experience.</li><li>Create and optimize blog content and landing pages to support organic visibility and lead generation.</li><li>Design marketing creatives and social media content for promotional campaigns; manage posting, engagement and brand promotion.</li></ul>
+      <ul class="chips"><li>SEO strategy</li><li>Keyword research</li><li>Competitor analysis</li><li>Website audits</li><li>Search performance monitoring</li><li>On-page SEO</li><li>Off-page SEO</li><li>Content strategy</li><li>Backlink strategy</li><li>Social media management</li><li>Creative marketing</li><li>WordPress management</li><li>Digital marketing campaigns</li><li>Google Search Console</li><li>Google Analytics</li><li>Ahrefs</li><li>Semrush</li></ul></div>
+    <div class="glass tilt rv" data-t="4"><p class="per">2024 — 2025</p><h3 class="role">Senior Sales Executive</h3><p class="co">HDB Financial Services</p>
       <ul class="chips"><li>B2C lead generation</li><li>Customer acquisition</li><li>Field sales</li><li>Retail outlet marketing</li><li>Telecalling campaigns</li></ul></div>
     <div class="glass tilt rv" data-t="4"><p class="per">Dec 2025</p><h3 class="role">Digital Marketing Internship</h3><p class="co">SLA Institute</p>
       <ul class="chips"><li>Meta Ads</li><li>Campaign creation</li><li>Audience targeting</li><li>Campaign optimization</li></ul></div>
     <div class="glass tilt rv" data-t="4"><p class="per">Dec 2025</p><h3 class="role">Digital Marketing &amp; Social Media Internship</h3><p class="co">Shain Digital Marketing Agency</p>
       <ul class="chips"><li>Digital marketing</li><li>Social media management</li><li>Creative design</li><li>Canva</li></ul></div>
+  </div>
+</div></section>
+
+<section id="education"><div class="wrap">
+  <div class="head rv"><h2>Education</h2></div>
+  <div class="tl">
+    <div class="glass tilt rv" data-t="4"><p class="per">2021 — 2023</p><h3 class="role">Master of Business Administration (MBA) — HR and Marketing</h3><p class="co">A V C College of Engineering</p></div>
+    <div class="glass tilt rv" data-t="4"><p class="per">2018 — 2021</p><h3 class="role">Bachelor of Science (B.Sc.) — Computer Science</h3><p class="co">A V C College (Autonomous)</p></div>
   </div>
 </div></section>
 
@@ -266,15 +296,15 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
       <a class="wm" href="img/Screenshot%202026-11-03%20123621.png" target="_blank" rel="noopener noreferrer" aria-label="View Google Ads performance overview screenshot in full size (opens in a new tab)"><img src="img/Screenshot%202026-11-03%20123621.png" alt="Google Ads overview showing 11 clicks, 259 impressions, 223 rupees average CPC and 2.45 thousand rupees cost, from 21 September to 3 November 2026" loading="lazy" decoding="async" /><small>View full screenshot ↗</small></a>
       <div class="wb"><p class="wt">Google Ads • Search Performance</p><h3>Google Ads Performance Overview</h3><p>Google Ads account overview for 21 September–3 November 2026, tracking clicks, impressions, average cost per click and spend over time.</p><ul class="chips"><li>11 clicks</li><li>259 impressions</li><li>₹223 average CPC</li><li>₹2.45K cost</li></ul></div>
     </article>
-    <article class="glass tilt wc rv" data-t="6"><div class="wb"><p class="wt">SEO • Digital Marketing • VFX</p><h3>5Elements Entertainment</h3><p>Digital marketing and SEO work focused on improving online visibility, search presence, website performance, content strategy, backlink development, and creative marketing for a VFX outsourcing company.</p><ul class="chips"><li>Website screenshot</li><li>SEO performance</li><li>Search Console</li><li>Marketing creatives</li></ul><a href="https://5edigital.com/" class="wl" target="_blank" rel="noopener noreferrer">View Project →</a></div></article>
+    <article class="glass tilt wc rv" data-t="6"><div class="wb"><p class="wt">SEO • Digital Marketing • VFX</p><h3>5Elements Entertainments</h3><p>Digital marketing and SEO work focused on improving online visibility, search presence, website performance, content strategy, backlink development, and creative marketing for a VFX outsourcing company.</p><ul class="chips"><li>Website screenshot</li><li>SEO performance</li><li>Search Console</li><li>Marketing creatives</li></ul><a href="https://5edigital.com/" class="wl" target="_blank" rel="noopener noreferrer">View Project →</a></div></article>
     <article class="glass tilt wc rv" data-t="6"><div class="wb"><p class="wt">Social Media • Content • Design</p><h3>Social Media &amp; Creative Marketing</h3><p>Social media creatives, marketing posters and advertisement designs produced to support brand promotions and content campaigns.</p><ul class="chips"><li>Social creatives</li><li>Marketing posters</li><li>Ad creatives</li><li>Brand promotions</li></ul></div></article>
   </div>
 </div></section>
 
 <section id="tools" style="padding-top:20px"><div class="wrap"><div class="head rv"><h2>Tools I use</h2></div></div>
   <div class="mq rv" role="list" aria-label="Tools I use"><div class="track">
-    <span role="listitem">Ahrefs</span><span role="listitem">SEMrush</span><span role="listitem">Google Search Console</span><span role="listitem">Google Analytics</span><span role="listitem">Google Ads</span><span role="listitem">Meta Ads</span><span role="listitem">WordPress</span><span role="listitem">Canva</span>
-    <span aria-hidden="true">Ahrefs</span><span aria-hidden="true">SEMrush</span><span aria-hidden="true">Google Search Console</span><span aria-hidden="true">Google Analytics</span><span aria-hidden="true">Google Ads</span><span aria-hidden="true">Meta Ads</span><span aria-hidden="true">WordPress</span><span aria-hidden="true">Canva</span>
+    <span role="listitem">Ahrefs</span><span role="listitem">Semrush</span><span role="listitem">Google Search Console</span><span role="listitem">Google Analytics</span><span role="listitem">Google Ads</span><span role="listitem">Meta Ads</span><span role="listitem">WordPress</span><span role="listitem">Canva</span>
+    <span aria-hidden="true">Ahrefs</span><span aria-hidden="true">Semrush</span><span aria-hidden="true">Google Search Console</span><span aria-hidden="true">Google Analytics</span><span aria-hidden="true">Google Ads</span><span aria-hidden="true">Meta Ads</span><span aria-hidden="true">WordPress</span><span aria-hidden="true">Canva</span>
   </div></div>
 </section>
 
@@ -296,6 +326,14 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
   <div><a href="https://www.linkedin.com/in/umasankar-t/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="mailto:umashankar.t2809@gmail.com">Email</a></div>
   <div>© 2026 Umashankar T. All Rights Reserved.</div>
 </div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="My work gallery" aria-hidden="true">
+  <button class="lbb lbx" id="lbx" aria-label="Close gallery">✕</button>
+  <button class="lbb lbp" id="lbp" aria-label="Previous image">←</button>
+  <figure><img id="lbi" src="" alt="" /><figcaption><b id="lbt"></b><span id="lbc"></span></figcaption></figure>
+  <button class="lbb lbn" id="lbn" aria-label="Next image">→</button>
+  <div class="lbd" id="lbd" aria-hidden="true"></div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -339,6 +377,35 @@ footer a{padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-w
     var L=$$('.links a'),so=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){var id='#'+x.target.id;if(id==='#hero')id='#home';if(id==='#tools'||id==='#contact')id=id==='#tools'?'#work':'';L.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')===id)})}})},{rootMargin:'-45% 0px -50% 0px'});
     $$('section[id]').forEach(function(s){so.observe(s)});
   }
+
+  /* work gallery: opens when the bot is clicked */
+  var G=[{s:'img/portfolio/meta-ads-results.png',t:'Meta Ads Campaigns',c:'Lead generation: 50 leads at ₹34.49 per lead'},
+    {s:'img/portfolio/seo-results.png',t:'SEO & Website Optimization',c:'5edigital.com: 85% site health, 36 organic keywords, 452 backlinks'},
+    {s:'img/portfolio/google-ads-results.png',t:'Google Ads Campaigns',c:'4.86K impressions, 88 clicks, ₹136 average CPC'},
+    {s:'img/Screenshot%202026-11-03%20123621.png',t:'Google Ads Performance Overview',c:'21 Sep – 3 Nov 2026: 11 clicks, 259 impressions, ₹223 average CPC'}];
+  var lb=$('#lb'),li=$('#lbi'),lt=$('#lbt'),lc=$('#lbc'),ld=$('#lbd'),gi=0,lastF=null;
+  G.forEach(function(g,k){var d=document.createElement('i');d.addEventListener('click',function(){show(k)});ld.appendChild(d)});
+  function show(k){gi=(k+G.length)%G.length;var g=G[gi];li.classList.remove('sw');void li.offsetWidth;li.src=g.s;li.alt=g.t+' screenshot';li.classList.add('sw');
+    lt.textContent=g.t;lc.textContent=g.c;[].forEach.call(ld.children,function(d,j){d.classList.toggle('on',j===gi)})}
+  function openG(){lastF=document.activeElement;show(0);lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('#lbx').focus()}
+  function closeG(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastF&&lastF.focus)lastF.focus()}
+  var botEl=$('#bot');
+  if(botEl){botEl.addEventListener('click',function(){setTimeout(openG,rm?0:650)});
+    botEl.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();botEl.click()}})}
+  $('#lbx').addEventListener('click',closeG);$('#lbp').addEventListener('click',function(){show(gi-1)});$('#lbn').addEventListener('click',function(){show(gi+1)});
+  lb.addEventListener('click',function(e){if(e.target===lb)closeG()});
+  addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeG();else if(e.key==='ArrowLeft')show(gi-1);else if(e.key==='ArrowRight')show(gi+1)});
+  var tx=0;lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)show(gi+(dx<0?1:-1))},{passive:true});
+
+  /* live experience counter: updates itself every day */
+  var START=new Date(2026,1,1); /* digital marketing start: 1 Feb 2026 (edit to change) */
+  function exp(){var n=new Date(),y=n.getFullYear()-START.getFullYear(),m=n.getMonth()-START.getMonth(),d=n.getDate()-START.getDate();
+    if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}
+    if(m<0){y--;m+=12}
+    var p=[];if(y>0)p.push(y+(y>1?' years':' year'));if(m>0)p.push(m+(m>1?' months':' month'));p.push(d+(d===1?' day':' days'));
+    var t=p.join(', ');$$('[data-exp]').forEach(function(e){e.textContent=t})}
+  exp();setInterval(exp,60000);
 
   /* three.js: wave field background + bot mascot */
   if(window.THREE&&!rm){
