@@ -1,94 +1,88 @@
-(function ($) {
-    "use strict";
+(() => {
+  document.documentElement.classList.add('js');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Spinner
-    var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
-    };
-    spinner();
-    
-    
-    // Initiate the wowjs
-    new WOW().init();
-
-
-    // Sticky Navbar
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 45) {
-            $('.navbar').addClass('sticky-top shadow-sm');
-        } else {
-            $('.navbar').removeClass('sticky-top shadow-sm');
+  /* ---------- Note entrance (IntersectionObserver) ---------- */
+  const notes = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.transitionDelay = (Math.random() * 0.2).toFixed(2) + 's';
+          e.target.classList.add('in');
+          io.unobserve(e.target);
         }
-    });
-    
-    
-    // Back to top button
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 100) {
-            $('.back-to-top').fadeIn('slow');
-        } else {
-            $('.back-to-top').fadeOut('slow');
-        }
-    });
-    $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
-        return false;
-    });
+      });
+    }, { threshold: 0.15 });
+    notes.forEach((n) => io.observe(n));
+  } else {
+    notes.forEach((n) => n.classList.add('in'));
+  }
 
+  /* ---------- Bot journey ---------- */
+  const bot = document.getElementById('bot');
+  const stops = [...document.querySelectorAll('.stop')];
+  if (!bot || !stops.length) return;
 
-    // Skills
-    $('.skill').waypoint(function () {
-        $('.progress .progress-bar').each(function () {
-            $(this).css("width", $(this).attr("aria-valuenow") + '%');
-        });
-    }, {offset: '80%'});
+  // Reduced motion: park the bot quietly in a corner.
+  if (reduce) {
+    bot.style.transform = `translate(${innerWidth - 100}px, ${innerHeight - 120}px)`;
+    return;
+  }
 
+  // Horizontal "side" per section (0 = left gutter, 1 = right gutter), hero -> contact.
+  const sides = [1, 0, 1, 0, 1, 0, 0.5];
+  let centers = [], lastY = scrollY, vel = 0, ticking = false, lastX = 0;
 
-    // Facts counter
-    $('[data-toggle="counter-up"]').counterUp({
-        delay: 10,
-        time: 2000
-    });
+  const measure = () => {
+    centers = stops.map((s) => s.offsetTop + s.offsetHeight / 2);
+  };
+  const smooth = (t) => t * t * (3 - 2 * t);
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
+  const place = () => {
+    ticking = false;
+    const vw = innerWidth, vh = innerHeight;
+    const mobile = vw <= 640;
+    const botW = bot.offsetWidth;
+    const probe = scrollY + vh * 0.5;
 
-    // Testimonials carousel
-    $(".testimonial-carousel").owlCarousel({
-        autoplay: true,
-        smartSpeed: 1000,
-        margin: 25,
-        dots: false,
-        loop: true,
-        nav : true,
-        navText : [
-            '<i class="bi bi-chevron-left"></i>',
-            '<i class="bi bi-chevron-right"></i>'
-        ],
-        responsive: {
-            0:{
-                items:1
-            },
-            992:{
-                items:2
-            }
-        }
-    });
+    // Find the segment between two section centres.
+    let i = 0;
+    while (i < centers.length - 2 && probe > centers[i + 1]) i++;
+    let t = clamp((probe - centers[i]) / (centers[i + 1] - centers[i]), 0, 1);
+    if (probe < centers[0]) t = 0;
 
+    // Pause: stay at the section for the first/last 30% of each segment.
+    const eased = smooth(clamp((t - 0.3) / 0.4, 0, 1));
+    const s = sides[i] + (sides[i + 1] - sides[i]) * eased;
 
-    // Portfolio isotope and filter
-    var portfolioIsotope = $('.portfolio-container').isotope({
-        itemSelector: '.portfolio-item',
-        layoutMode: 'fitRows'
-    });
-    $('#portfolio-flters li').on('click', function () {
-        $("#portfolio-flters li").removeClass('active');
-        $(this).addClass('active');
+    const edgeL = 6, edgeR = vw - botW - 6;
+    let x = edgeL + (edgeR - edgeL) * s;
+    if (mobile) x = edgeR - (edgeR - edgeL) * 0.12 * Math.sin(eased * Math.PI) - 0; // simple path on phones
 
-        portfolioIsotope.isotope({filter: $(this).data('filter')});
-    });
-    
-})(jQuery);
+    // Curved path: a vertical sweep while crossing between sections.
+    const y = vh * (mobile ? 0.82 : 0.68) - Math.sin(eased * Math.PI) * vh * 0.12;
 
+    const moving = Math.abs(vel) > 1.5 || (eased > 0.02 && eased < 0.98);
+    const dx = x - lastX;
+    if (Math.abs(dx) > 0.5) bot.classList.toggle('flip', dx < 0);
+    lastX = x;
+    bot.classList.toggle('moving', moving);
+    bot.classList.toggle('point', !moving && !mobile);
+    // Point toward the content (towards page centre).
+    if (!moving) bot.classList.toggle('flip', x > vw / 2);
+
+    bot.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+    vel *= 0.8;
+  };
+
+  const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(place); } };
+  addEventListener('scroll', () => {
+    vel = scrollY - lastY; lastY = scrollY; request();
+    clearTimeout(request.t); request.t = setTimeout(() => { vel = 0; request(); }, 140);
+  }, { passive: true });
+  addEventListener('resize', () => { measure(); request(); });
+  addEventListener('load', () => { measure(); request(); });
+  measure(); place();
+})();
